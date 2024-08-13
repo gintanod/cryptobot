@@ -1,5 +1,5 @@
 const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-const apiUrl = `https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=${symbol}`;
+const apiUrl = `https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest?symbol=${symbol}`;
 const url = `${proxyUrl}${apiUrl}`;
 
 document.getElementById('get-price').addEventListener('click', async () => {

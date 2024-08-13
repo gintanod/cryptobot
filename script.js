@@ -1,7 +1,7 @@
 document.getElementById('get-price').addEventListener('click', async () => {
     const symbol = document.getElementById('crypto-symbol').value.toUpperCase();
     const apiKey = '7896b2ab-3f57-4881-8b52-2490ec79da54'; // Replace with your CoinMarketCap API key
-    const url = `https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=${symbol}`;
+    const url = `https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest?symbol=${symbol}`;
 
     try {
         const response = await fetch(url, {

@@ -39,7 +39,7 @@
     <script>
         document.getElementById('user-input').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
-                const input = e.target.value;
+                const input = e.target.value.trim().toUpperCase();
                 e.target.value = '';
                 displayMessage('user', input);
                 fetchPrice(input);
@@ -57,14 +57,21 @@
 
         function fetchPrice(query) {
             displayMessage('bot', 'Fetching price...');
-            const apiKey = '7896b2ab-3f57-4881-8b52-2490ec79da54'; // Replace with your CoinMarketCap API key
-            fetch(`https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=${query}&convert=USD`, {
+            const apiKey = 'YOUR_API_KEY'; // Replace with your CoinMarketCap API key
+            fetch(`https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest?symbol=${query}&convert=USD`, {
                 headers: {
-                    'X-CMC_PRO_API_KEY': apiKey
+                    'X-CMC_PRO_API_KEY': apiKey,
+                    'Accept': 'application/json'
                 }
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
+                console.log('API Response:', data); // Log the response for debugging
                 const price = data.data[query]?.quote?.USD?.price;
                 if (price) {
                     displayMessage('bot', `The price of ${query} is $${price.toFixed(2)}`);
@@ -72,7 +79,10 @@
                     displayMessage('bot', `Sorry, I couldn't find the price for ${query}`);
                 }
             })
-            .catch(() => displayMessage('bot', 'Sorry, there was an error fetching the price.'));
+            .catch(error => {
+                console.error('Error:', error); // Log the error for debugging
+                displayMessage('bot', 'Sorry, there was an error fetching the price.');
+            });
         }
     </script>
 </body>
